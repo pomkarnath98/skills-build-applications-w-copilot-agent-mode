@@ -1,75 +1,37 @@
-# React + TypeScript + Vite
+# OctoFit Tracker presentation tier
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend uses React 19, Vite, React Router, and Bootstrap.
 
-Currently, two official plugins are available:
+## Configure the API URL
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+In GitHub Codespaces, define `VITE_CODESPACE_NAME` in
+`octofit-tracker/frontend/.env.local`. Vite exposes only variables prefixed
+with `VITE_` to browser code.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```dotenv
+VITE_CODESPACE_NAME=your-codespace-name
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Replace `your-codespace-name` with the value of the Codespaces
+`CODESPACE_NAME` environment variable. The frontend builds its API URL as
+`https://${VITE_CODESPACE_NAME}-8000.app.github.dev`. Restart the Vite server
+after changing `.env.local`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+If `VITE_CODESPACE_NAME` is unset, the frontend uses
+`http://localhost:8000`. Ensure the Express API is running on port `8000` for
+local development.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Development
 
+Start Vite on port `5173`:
+
+```bash
+npm --prefix octofit-tracker/frontend run dev
+```
+
+Build and lint:
+
+```bash
+npm --prefix octofit-tracker/frontend run build
+npm --prefix octofit-tracker/frontend run lint
 ```
